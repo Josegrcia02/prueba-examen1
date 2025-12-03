@@ -6,8 +6,12 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_PROFILES_ACTIVE: neon
+      DB_URL: jdbc:postgresql://ep-twilight-waterfall-adh2pm4g-pooler.c-2.us-east-1.aws.neon.tech/pets?sslmode=require
+      DB_USER: neondb_owner
+      DB_PASS: npg_ciR1In8OvFYW
       # Activamos el perfil 'neon'
-      - SPRING_PROFILES_ACTIVE=neon
+
 
   # 2. Frontend PHP
   frontend:

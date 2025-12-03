@@ -10,7 +10,7 @@ services:
       - "3309:3306" # 5432:5432
     volumes:
       - mysql_data:/var/lib/mysql # postgres_data:/var/lib/postgresql/data
-      - ./sql_mysql.sql:/docker-entrypoint-initdb.d/sql_mysql.sql # ./sql_postgre.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql:/docker-entrypoint-initdb.d/sql_mysql.sql # ./sql_postgre.sql:/docker-entrypoint-initdb.d/init.sql
 
   # 2. Tu API Spring Boot
   backend:
