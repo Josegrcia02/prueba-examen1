@@ -1,0 +1,21 @@
+services:
+  # 1. Tu API Spring Boot
+  backend:
+    build: .
+    container_name: api_rest_neon
+    ports:
+      - "8080:8080"
+    environment:
+      # Activamos el perfil 'neon'
+      - SPRING_PROFILES_ACTIVE=neon
+
+  # 2. Frontend PHP
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: php_frontend_neon
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

@@ -1,0 +1,4 @@
+com.hellin.despliegue_api_rest
+com.hellin.despliegue_api_rest.controller
+com.hellin.despliegue_api_rest.entity
+com.hellin.despliegue_api_rest.repository
