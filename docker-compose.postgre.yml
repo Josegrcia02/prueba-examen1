@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # 1. Base de datos PostgreSQL (Reemplaza a MySQL)
+  postgres-db:
+    image: postgres:15 # Versión estable recomendada
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root123
+      POSTGRES_DB: pets
+    ports:
+      - "5432:5432" # Puerto estándar de Postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # ¡OJO! Asegúrate de tener un script compatible con Postgres. 
+      # El de MySQL probablemente fallará por sintaxis.
+      - ./sql/sql_postgre.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # 2. Tu API Spring Boot
+  backend:
+    build: .
+    restart: always
+    container_name: api_rest_local
+    ports:
+      - "8085:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=local
+      # Sobrescribimos la URL aquí por seguridad para garantizar que apunte al servicio correcto
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/pets
+    depends_on:
+      - postgres-db
+
+  # 3. Frontend PHP (Sin cambios mayores, solo espera al backend)
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: php_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
